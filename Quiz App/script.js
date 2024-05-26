@@ -44,14 +44,14 @@ homeBtn.addEventListener('click', () => {
     end.style.display = 'none';
     land.style.display = 'flex';
 });
-
+let count;
 function startQuiz() {
     land.style.display = 'none';
     quiz.style.display = 'flex';
     end.style.display = 'none';
-
     currentQuestionIndex = 0;
     score = 0;
+    count = 0;
     updateQuestionNumber();
     updateScore();
     updateProgressBar();
@@ -107,21 +107,26 @@ questions.forEach((q, index) => {
 
         option.appendChild(optionNumber);
         option.appendChild(optionText);
+        //count = 0;
 
         option.addEventListener('click', function () {
-            if (i === q.answer) {
-                option.style.setProperty('background-color', 'green', 'important');
-                optionText.style.setProperty('background-color', 'green', 'important');
-                optionNumber.style.setProperty('background-color', 'green', 'important');
-                score += 10;
-                updateScore();
-                updateProgressBar();
-            } else {
-                option.style.setProperty('background-color', 'red', 'important');
-                optionText.style.setProperty('background-color', 'red', 'important');
-                optionNumber.style.setProperty('background-color', 'red', 'important');
+            if (count == 0) {
+                if (i === q.answer) {
+                    option.style.setProperty('background-color', 'green', 'important');
+                    optionText.style.setProperty('background-color', 'green', 'important');
+                    optionNumber.style.setProperty('background-color', 'green', 'important');
+                    score += 10;
+                    updateScore();
+                    updateProgressBar();
+                } else {
+                    option.style.setProperty('background-color', 'red', 'important');
+                    optionText.style.setProperty('background-color', 'red', 'important');
+                    optionNumber.style.setProperty('background-color', 'red', 'important');
+                }
             }
 
+
+            count++;
             setTimeout(function () {
                 questionContainer.style.display = 'none';
 
@@ -135,7 +140,7 @@ questions.forEach((q, index) => {
                     end.style.display = 'flex';
                     finalScoreElement.textContent = `Final Score: ${score}`;
                 }
-            }, 800);
+            }, 1000);
         });
 
         optionsContainer.appendChild(option);
@@ -146,6 +151,7 @@ questions.forEach((q, index) => {
     quiz.appendChild(questionContainer);
 });
 function updateProgressBar() {
+    count=0;
     const progressBar = document.querySelector('.progress-bar');
     const progress = ((currentQuestionIndex) / questions.length) * 100;
     progressBar.style.width = `${progress}%`;
